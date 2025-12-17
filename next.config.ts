@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 
+const isDev = process.env.NODE_ENV !== "production";
+
 const nextConfig: NextConfig = {
   async headers() {
     return [
@@ -11,8 +13,21 @@ const nextConfig: NextConfig = {
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           {
             key: "Content-Security-Policy",
-            value:
-              "default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'",
+            value: isDev
+              ? `
+                default-src 'self';
+                script-src 'self' 'unsafe-inline' 'unsafe-eval';
+                style-src 'self' 'unsafe-inline';
+                img-src 'self' data:;
+                connect-src 'self' ws:;
+              `.replace(/\s+/g, " ").trim()
+              : `
+                default-src 'self';
+                script-src 'self';
+                style-src 'self' 'unsafe-inline';
+                img-src 'self' data:;
+                connect-src 'self';
+              `.replace(/\s+/g, " ").trim(),
           },
           {
             key: "Strict-Transport-Security",
