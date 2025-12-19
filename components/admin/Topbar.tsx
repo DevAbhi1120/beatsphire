@@ -1,217 +1,224 @@
 "use client";
 
-import { deleteCookie } from "@/lib/auth";
-import { useRouter } from "next/navigation";
-import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 import {
   Bell,
   Search,
   Menu,
-  LogOut,
   User,
+  LogOut,
   Settings,
   ChevronDown,
-  Moon,
-  Sun, // NEW: Theme icons
+  CheckCircle2,
+  AlertCircle,
+  Info,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { useTheme } from "next-themes"; // NEW: Assume next-themes installed, or implement manually
+import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { cn } from "@/lib/utils"; // Ensure you have a cn utility or use template literals
 
-export default function Topbar({ onMenuClick }: { onMenuClick: () => void }) {
-  const router = useRouter();
+// Dummy Notifications Data
+const INITIAL_NOTIFICATIONS = [
+  {
+    id: 1,
+    title: "New User Registered",
+    desc: "Sarah Connor joined the team.",
+    time: "Just now",
+    type: "success",
+  },
+  {
+    id: 2,
+    title: "Server Overload",
+    desc: "CPU usage reached 90%.",
+    time: "10 min ago",
+    type: "warning",
+  },
+  {
+    id: 3,
+    title: "Backup Completed",
+    desc: "Daily backup finished successfully.",
+    time: "1 hr ago",
+    type: "info",
+  },
+];
+
+interface TopbarProps {
+  onMenuClick: () => void;
+  searchQuery: string;
+  setSearchQuery: (q: string) => void;
+}
+
+export default function Topbar({
+  onMenuClick,
+  searchQuery,
+  setSearchQuery,
+}: TopbarProps) {
   const [isProfileOpen, setProfileOpen] = useState(false);
-  const [isNotificationsOpen, setNotificationsOpen] = useState(false); // NEW: Notifications state
-  const [searchQuery, setSearchQuery] = useState(""); // NEW: Search state
-  const searchRef = useRef<HTMLInputElement>(null); // NEW: For focus
-  const { theme, setTheme } = useTheme(); // NEW: Theme hook
+  const [isNotifOpen, setNotifOpen] = useState(false);
+  const [notifications, setNotifications] = useState(INITIAL_NOTIFICATIONS);
 
-  function logout() {
-    deleteCookie("admin_session");
-    deleteCookie("admin_2fa");
-    deleteCookie("admin_role");
-    router.push("/admin/login");
-  }
-
-  // NEW: Cmd+K shortcut for search
-  useEffect(() => {
-    const handleShortcut = (e: KeyboardEvent) => {
-      if (e.metaKey && e.key === "k") {
-        e.preventDefault();
-        searchRef.current?.focus();
-      }
-    };
-    document.addEventListener("keydown", handleShortcut);
-    return () => document.removeEventListener("keydown", handleShortcut);
-  }, []);
-
-  // NEW: Propagate search to sidebar (you'll pass this down)
-  const handleSearchChange = (q: string) => {
-    setSearchQuery(q);
-    // Optional: If search > 3 chars, redirect to /admin/search?q=${q}
-    if (q.length > 3) {
-      router.push(`/admin/search?q=${encodeURIComponent(q)}`);
-    }
-  };
-
-  // NEW: Mock notifications (replace with real fetch)
-  const notifications = [
-    {
-      id: 1,
-      title: "New user registered",
-      time: "2 min ago",
-      type: "success" as const,
-    },
-    {
-      id: 2,
-      title: "Report generated",
-      time: "1 hr ago",
-      type: "info" as const,
-    },
-    {
-      id: 3,
-      title: "System alert",
-      time: "Yesterday",
-      type: "warning" as const,
-    },
-  ];
+  // Clear notifications
+  const clearNotifications = () => setNotifications([]);
 
   return (
-    <header className="sticky top-0 z-30 h-16 border-b border-neutral-800 bg-neutral-950/80 backdrop-blur-md px-6 flex items-center justify-between">
-      {/* Left: Mobile Toggle & Search - IMPROVED: Always visible, expands on focus */}
+    <header className="h-16 flex items-center justify-between px-4 md:px-8 border-b border-zinc-800 bg-zinc-950/50 backdrop-blur-md sticky top-0 z-20">
+      {/* Left: Hamburger & Search */}
       <div className="flex items-center gap-4 flex-1">
         <button
           onClick={onMenuClick}
-          className="md:hidden p-2 text-neutral-400 hover:text-white rounded-md hover:bg-neutral-800"
-          aria-label="Open sidebar"
+          className="md:hidden p-2 text-zinc-400 hover:bg-zinc-800 rounded-lg transition-colors"
         >
           <Menu size={20} />
         </button>
 
-        <div
-          className={cn(
-            "flex items-center gap-2 bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-1.5 focus-within:border-indigo-500/50 transition-all duration-200",
-            "w-full md:w-64" // IMPROVED: Full width on mobile
-          )}
-        >
-          <Search size={14} className="text-neutral-500 flex-shrink-0" />
+        <div className="relative w-full max-w-md hidden md:flex items-center">
+          <Search className="absolute left-3 text-zinc-500" size={16} />
           <input
-            ref={searchRef}
+            type="text"
             value={searchQuery}
-            onChange={(e) => handleSearchChange(e.target.value)}
-            className="bg-transparent border-none outline-none text-sm text-neutral-200 placeholder:text-neutral-600 flex-1 min-w-0"
-            placeholder="Search dashboard... (⌘K)"
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search resources..."
+            className="w-full bg-zinc-900/50 border border-zinc-800 text-sm text-zinc-200 rounded-full pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all"
           />
         </div>
       </div>
 
-      {/* Right: Actions - IMPROVED: More spacing */}
-      <div className="flex items-center gap-4">
-        {/* NEW: Notifications Dropdown */}
+      {/* Right: Actions */}
+      <div className="flex items-center gap-3">
+        {/* Notifications Dropdown */}
         <div className="relative">
           <button
-            onClick={() => setNotificationsOpen(!isNotificationsOpen)}
-            className="relative p-2 text-neutral-400 hover:text-white rounded-full hover:bg-neutral-800 transition-colors"
-            aria-label="Notifications"
+            onClick={() => setNotifOpen(!isNotifOpen)}
+            className="p-2 rounded-full text-zinc-400 hover:bg-zinc-800 hover:text-white transition-all relative"
           >
             <Bell size={20} />
-            <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-neutral-950 animate-pulse"></span>
+            {notifications.length > 0 && (
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-indigo-500 rounded-full animate-pulse ring-2 ring-zinc-950" />
+            )}
           </button>
+
           <AnimatePresence>
-            {isNotificationsOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                className="absolute right-0 mt-2 w-64 bg-neutral-900 border border-neutral-800 rounded-xl shadow-xl py-2 z-50 max-h-80 overflow-y-auto"
-              >
-                {notifications.map((notif) => (
-                  <div
-                    key={notif.id}
-                    className="px-4 py-3 border-b border-neutral-800 last:border-b-0 hover:bg-neutral-800/50"
-                  >
-                    <p className="text-sm font-medium text-white">
-                      {notif.title}
-                    </p>
-                    <p className="text-xs text-neutral-500">{notif.time}</p>
+            {isNotifOpen && (
+              <>
+                <div
+                  className="fixed inset-0 z-30"
+                  onClick={() => setNotifOpen(false)}
+                />
+                <motion.div
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                  transition={{ duration: 0.1 }}
+                  className="absolute right-0 mt-3 w-80 bg-zinc-900 border border-zinc-800 rounded-xl shadow-2xl z-40 overflow-hidden ring-1 ring-black/5"
+                >
+                  <div className="p-3 border-b border-zinc-800 flex justify-between items-center">
+                    <h3 className="text-sm font-semibold text-white">
+                      Notifications
+                    </h3>
+                    <button
+                      onClick={clearNotifications}
+                      className="text-xs text-indigo-400 hover:text-indigo-300"
+                    >
+                      Mark all read
+                    </button>
                   </div>
-                ))}
-                {notifications.length === 0 && (
-                  <p className="px-4 py-3 text-sm text-neutral-500 text-center">
-                    No notifications
-                  </p>
-                )}
-              </motion.div>
+                  <div className="max-h-[300px] overflow-y-auto">
+                    {notifications.length === 0 ? (
+                      <div className="p-8 text-center text-zinc-500 text-sm">
+                        No new notifications
+                      </div>
+                    ) : (
+                      notifications.map((n) => (
+                        <div
+                          key={n.id}
+                          className="p-3 border-b border-zinc-800/50 hover:bg-zinc-800/50 transition-colors flex gap-3"
+                        >
+                          <div
+                            className={cn(
+                              "mt-1",
+                              n.type === "success"
+                                ? "text-green-500"
+                                : n.type === "warning"
+                                ? "text-amber-500"
+                                : "text-blue-500"
+                            )}
+                          >
+                            {n.type === "success" ? (
+                              <CheckCircle2 size={16} />
+                            ) : n.type === "warning" ? (
+                              <AlertCircle size={16} />
+                            ) : (
+                              <Info size={16} />
+                            )}
+                          </div>
+                          <div>
+                            <p className="text-sm text-zinc-200 font-medium">
+                              {n.title}
+                            </p>
+                            <p className="text-xs text-zinc-500">{n.desc}</p>
+                            <p className="text-[10px] text-zinc-600 mt-1">
+                              {n.time}
+                            </p>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </motion.div>
+              </>
             )}
           </AnimatePresence>
         </div>
 
-        {/* Profile Dropdown - IMPROVED: Added theme toggle */}
+        <div className="w-px h-6 bg-zinc-800 mx-1" />
+
+        {/* Profile Dropdown */}
         <div className="relative">
           <button
             onClick={() => setProfileOpen(!isProfileOpen)}
-            className="flex items-center gap-2 p-1 pr-3 rounded-full hover:bg-neutral-900 border border-transparent hover:border-neutral-800 transition-all"
+            className="flex items-center gap-2 pl-1 pr-2 py-1 rounded-full hover:bg-zinc-800 transition-all border border-transparent hover:border-zinc-700"
           >
-            <div className="w-8 h-8 rounded-full bg-neutral-800 border border-neutral-700 overflow-hidden">
-              <div className="w-full h-full flex items-center justify-center bg-indigo-600 text-white font-bold text-xs">
-                A
-              </div>
+            <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-xs font-bold text-white shadow-lg shadow-indigo-500/20">
+              AD
             </div>
-            <ChevronDown size={14} className="text-neutral-500" />
+            <ChevronDown size={14} className="text-zinc-500" />
           </button>
 
           <AnimatePresence>
             {isProfileOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                className="absolute right-0 mt-2 w-48 bg-neutral-900 border border-neutral-800 rounded-xl shadow-xl py-1 z-50"
-              >
-                <div className="px-4 py-2 border-b border-neutral-800 mb-1">
-                  <p className="text-sm font-medium text-white">
-                    Administrator
-                  </p>
-                  <p className="text-xs text-neutral-500">admin@company.com</p>
-                </div>
-
-                <Link href="/admin/profile" className="block">
-                  {" "}
-                  {/* IMPROVED: Link instead of button */}
-                  <button className="w-full text-left px-4 py-2 text-sm text-neutral-400 hover:bg-neutral-800 hover:text-white flex items-center gap-2">
-                    <User size={14} /> Profile
+              <>
+                <div
+                  className="fixed inset-0 z-30"
+                  onClick={() => setProfileOpen(false)}
+                />
+                <motion.div
+                  initial={{ opacity: 0, y: 5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 5 }}
+                  transition={{ duration: 0.1 }}
+                  className="absolute right-0 mt-2 w-56 bg-zinc-900 border border-zinc-800 rounded-xl shadow-xl z-40 p-1"
+                >
+                  <div className="px-3 py-2 mb-1 border-b border-zinc-800">
+                    <p className="text-sm font-medium text-white">Admin User</p>
+                    <p className="text-xs text-zinc-500">admin@example.com</p>
+                  </div>
+                  <Link
+                    href="/admin/profile"
+                    className="flex items-center gap-2 px-3 py-2 text-sm text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors"
+                  >
+                    <User size={16} /> Profile
+                  </Link>
+                  <Link
+                    href="/admin/settings"
+                    className="flex items-center gap-2 px-3 py-2 text-sm text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors"
+                  >
+                    <Settings size={16} /> Settings
+                  </Link>
+                  <button className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-400 hover:bg-red-500/10 rounded-lg transition-colors mt-1">
+                    <LogOut size={16} /> Sign Out
                   </button>
-                </Link>
-                <button className="w-full text-left px-4 py-2 text-sm text-neutral-400 hover:bg-neutral-800 hover:text-white flex items-center gap-2">
-                  <Settings size={14} /> Settings
-                </button>
-
-                {/* NEW: Theme Toggle */}
-                <div className="h-px bg-neutral-800 my-1" />
-                <button
-                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                  className="w-full text-left px-4 py-2 text-sm text-neutral-400 hover:bg-neutral-800 hover:text-white flex items-center gap-2"
-                >
-                  <Moon
-                    size={14}
-                    className={cn(theme === "dark" ? "hidden" : "block")}
-                  />
-                  <Sun
-                    size={14}
-                    className={cn(theme !== "dark" ? "hidden" : "block")}
-                  />
-                  {theme === "dark" ? "Light Mode" : "Dark Mode"}
-                </button>
-
-                <div className="h-px bg-neutral-800 my-1" />
-
-                <button
-                  onClick={logout}
-                  className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 flex items-center gap-2"
-                >
-                  <LogOut size={14} /> Logout
-                </button>
-              </motion.div>
+                </motion.div>
+              </>
             )}
           </AnimatePresence>
         </div>

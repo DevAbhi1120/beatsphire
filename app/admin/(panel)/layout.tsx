@@ -12,7 +12,6 @@ export default function AdminPanelLayout({
 
   return (
     <AdminShell>
-      {/* Pass mobile state if needed for Sidebar */}
       {children}
     </AdminShell>
   );

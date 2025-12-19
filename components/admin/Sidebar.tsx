@@ -2,8 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { getRole } from "@/lib/auth";
-import { ROLE_PERMISSIONS } from "@/lib/permissions";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard,
@@ -11,242 +9,117 @@ import {
   BarChart3,
   FileText,
   Settings,
-  ScrollText,
   X,
   ShieldCheck,
-  ChevronRight,
-  Plus,
-  UserPlus,
-  FilePlus,
-  // NEW: Quick action icons
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useEffect, useRef } from "react"; // NEW: For swipe/keyboard
 
-// Map keys to Icons
-const ICONS: Record<string, any> = {
-  dashboard: LayoutDashboard,
-  users: Users,
-  analytics: BarChart3,
-  reports: FileText,
-  config: Settings,
-  logs: ScrollText,
-};
-
-const ITEMS = [
-  { label: "Dashboard", href: "/admin/dashboard", key: "dashboard" },
-  { label: "User Management", href: "/admin/users", key: "users" },
-  { label: "Analytics", href: "/admin/analytics", key: "analytics" },
-  { label: "Reports", href: "/admin/reports", key: "reports" },
-  { label: "Configuration", href: "/admin/config", key: "config" },
-  { label: "System Logs", href: "/admin/logs", key: "logs" },
+const NAV_ITEMS = [
+  { label: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
+  { label: "Users", href: "/admin/users", icon: Users },
+  { label: "Analytics", href: "/admin/analytics", icon: BarChart3 },
+  { label: "Reports", href: "/admin/reports", icon: FileText },
+  { label: "Settings", href: "/admin/settings", icon: Settings },
 ];
-
-// NEW: Quick actions (customize as needed)
-const QUICK_ACTIONS = [
-  {
-    label: "Add User",
-    href: "/admin/users/new",
-    icon: UserPlus,
-    key: "add-user",
-  },
-  {
-    label: "New Report",
-    href: "/admin/reports/new",
-    icon: FilePlus,
-    key: "new-report",
-  },
-];
-
-interface SidebarProps {
-  isOpen: boolean;
-  setIsOpen: (v: boolean) => void;
-  // NEW: Search query for filtering
-  searchQuery?: string;
-}
 
 export default function Sidebar({
   isOpen,
   setIsOpen,
-  searchQuery = "",
-}: SidebarProps) {
+  searchQuery,
+}: {
+  isOpen: boolean;
+  setIsOpen: (v: boolean) => void;
+  searchQuery: string;
+}) {
   const pathname = usePathname();
-  const role = (getRole() as string) || "GUEST";
-  const allowed = ROLE_PERMISSIONS[role] || [];
-  const sidebarRef = useRef<HTMLDivElement>(null); // NEW: For swipe
 
-  const filteredItems = ITEMS.filter(
-    (i) =>
-      allowed.includes(i.key) &&
-      (searchQuery === "" ||
-        i.label.toLowerCase().includes(searchQuery.toLowerCase()))
+  // Filter items based on search from topbar
+  const filteredItems = NAV_ITEMS.filter((item) =>
+    item.label.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // NEW: Keyboard esc to close
-  useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setIsOpen(false);
-    };
-    if (isOpen) document.addEventListener("keydown", handleEsc);
-    return () => document.removeEventListener("keydown", handleEsc);
-  }, [isOpen, setIsOpen]);
-
-  // NEW: Mobile swipe to close
-  useEffect(() => {
-    if (!isOpen || !sidebarRef.current) return;
-    const handleTouch = (e: TouchEvent) => {
-      const touch = e.touches[0];
-      if (touch.clientX > 50) setIsOpen(false); // Simple swipe right
-    };
-    sidebarRef.current.addEventListener("touchstart", handleTouch);
-    return () =>
-      sidebarRef.current?.removeEventListener("touchstart", handleTouch);
-  }, [isOpen, setIsOpen]);
-
   const SidebarContent = () => (
-    <div
-      ref={sidebarRef}
-      className="flex flex-col h-full bg-neutral-950 border-r border-neutral-800 text-neutral-300"
-    >
-      {/* Header - IMPROVED: Added search focus hint */}
-      <div className="h-16 flex items-center px-6 border-b border-neutral-800">
+    <div className="flex flex-col h-full bg-zinc-950 border-r border-zinc-800 w-72">
+      {/* Logo Area */}
+      <div className="h-16 flex items-center px-6 border-b border-zinc-800">
         <div className="flex items-center gap-2 text-indigo-500">
-          <ShieldCheck className="w-8 h-8" />
-          <span className="text-xl font-bold tracking-tight text-white">
+          <div className="p-1 bg-indigo-500/10 rounded-lg">
+            <ShieldCheck className="w-6 h-6" />
+          </div>
+          <span className="text-lg font-bold tracking-tight text-white">
             AdminOS
           </span>
         </div>
         <button
           onClick={() => setIsOpen(false)}
-          className="md:hidden ml-auto text-neutral-400 hover:text-white"
-          aria-label="Close sidebar"
+          className="md:hidden ml-auto text-zinc-400"
         >
           <X size={20} />
         </button>
       </div>
 
-      {/* Navigation - IMPROVED: Filtered by search */}
-      <nav className="flex-1 overflow-y-auto py-6 px-3 space-y-1">
-        <p className="px-3 text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">
-          Main Menu
+      {/* Navigation */}
+      <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+        <p className="px-2 text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3">
+          Menu
         </p>
-        {filteredItems.length === 0 ? (
-          <p className="px-3 text-sm text-neutral-500 italic">
-            No matches found
-          </p> // NEW: Empty state
-        ) : (
-          filteredItems.map((item) => {
-            const Icon = ICONS[item.key] || LayoutDashboard;
-            const isActive = pathname === item.href;
 
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                prefetch={true} // IMPROVED: Explicit prefetch
-                onClick={() => setIsOpen(false)}
+        {filteredItems.map((item) => {
+          const isActive = pathname === item.href;
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setIsOpen(false)} // Close on mobile click
+              className={cn(
+                "group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 relative",
+                isActive
+                  ? "text-white bg-indigo-600/10"
+                  : "text-zinc-400 hover:bg-zinc-900 hover:text-zinc-200"
+              )}
+            >
+              {isActive && (
+                <motion.span
+                  layoutId="activeTab"
+                  className="absolute left-0 w-1 h-6 bg-indigo-500 rounded-r-full"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                />
+              )}
+              <item.icon
+                size={18}
                 className={cn(
-                  "group flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 hover:shadow-sm", // IMPROVED: Subtle shadow
                   isActive
-                    ? "bg-indigo-600/20 text-indigo-300 shadow-indigo-500/10" // IMPROVED: Softer active
-                    : "text-neutral-400 hover:bg-neutral-900/50 hover:text-neutral-200"
+                    ? "text-indigo-400"
+                    : "text-zinc-500 group-hover:text-zinc-300"
                 )}
-                aria-current={isActive ? "page" : undefined} // IMPROVED: Accessibility
-              >
-                <div className="flex items-center gap-3">
-                  <motion.div // IMPROVED: Animate icon scale
-                    whileHover={{ scale: 1.05 }}
-                    className="flex-shrink-0"
-                  >
-                    <Icon
-                      size={18}
-                      className={cn(
-                        isActive
-                          ? "text-indigo-400"
-                          : "text-neutral-500 group-hover:text-neutral-300"
-                      )}
-                    />
-                  </motion.div>
-                  <span className="truncate">{item.label}</span>
-                </div>
-                {isActive && (
-                  <motion.div
-                    layoutId="active-pill"
-                    className="w-1 h-1 rounded-full bg-indigo-400"
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }} // IMPROVED: Bouncy
-                  />
-                )}
-              </Link>
-            );
-          })
-        )}
+              />
+              <span>{item.label}</span>
+            </Link>
+          );
+        })}
       </nav>
 
-      {/* NEW: Quick Actions Section */}
-      {role === "ADMIN" && ( // Role-gated
-        <>
-          <div className="px-3 py-2 border-t border-neutral-800">
-            <p className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">
-              Quick Actions
-            </p>
-          </div>
-          <div className="px-3 space-y-1 mb-4">
-            {QUICK_ACTIONS.map((action) => (
-              <Link
-                key={action.href}
-                href={action.href}
-                prefetch={true}
-                className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-neutral-400 hover:bg-neutral-900/50 transition-colors"
-              >
-                <action.icon size={14} className="text-neutral-500" />
-                {action.label}
-              </Link>
-            ))}
-          </div>
-        </>
-      )}
-
-      {/* User Mini Profile - IMPROVED: Click to profile */}
-      <div className="p-4 border-t border-neutral-800">
-        <Link href="/admin/profile" className="block">
-          {" "}
-          {/* NEW: Navigates to profile */}
-          <div className="flex items-center gap-3 p-3 rounded-lg bg-neutral-900/50 hover:bg-neutral-900/70 transition-colors cursor-pointer shadow-sm hover:shadow-md">
-            {" "}
-            {/* IMPROVED: Hover depth */}
-            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center text-xs font-bold text-white">
-              {" "}
-              {/* IMPROVED: Gradient */}
-              JD
-            </div>
-            <div className="flex-1 overflow-hidden">
-              <p className="text-sm font-medium text-white truncate">
-                John Doe
-              </p>
-              <p className="text-xs text-neutral-500 truncate">{role}</p>
-            </div>
-            <ChevronRight size={14} className="text-neutral-500" />
-          </div>
-        </Link>
+      {/* Footer */}
+      <div className="p-4 border-t border-zinc-800">
+        <div className="p-4 rounded-xl bg-gradient-to-br from-indigo-900/20 to-purple-900/20 border border-indigo-500/10">
+          <p className="text-xs font-medium text-indigo-300">Pro Plan Active</p>
+          <p className="text-[10px] text-indigo-400/60 mt-0.5">
+            Expires in 12 days
+          </p>
+        </div>
       </div>
     </div>
   );
 
   return (
     <>
-      {/* Desktop Sidebar - IMPROVED: Reduced motion support */}
-      <aside
-        className={cn(
-          "hidden md:block w-72 h-screen fixed inset-y-0 left-0 z-50 transition-transform duration-300",
-          typeof window !== "undefined" &&
-            window.matchMedia("(prefers-reduced-motion: reduce)").matches &&
-            "motion-reduce:transition-none"
-        )}
-      >
+      {/* Desktop Sidebar - Static */}
+      <aside className="hidden md:block w-72 h-full flex-shrink-0 z-10">
         <SidebarContent />
       </aside>
 
-      {/* Mobile Sidebar (Drawer) - IMPROVED: Backdrop blur, spring anim */}
+      {/* Mobile Sidebar - Drawer */}
       <AnimatePresence>
         {isOpen && (
           <>
@@ -262,7 +135,7 @@ export default function Sidebar({
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="md:hidden fixed inset-y-0 left-0 z-50 w-72 bg-neutral-950 shadow-2xl"
+              className="md:hidden fixed inset-y-0 left-0 z-50 shadow-2xl"
             >
               <SidebarContent />
             </motion.aside>
