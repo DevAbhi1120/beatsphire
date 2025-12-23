@@ -74,7 +74,6 @@ export default function Topbar({
 
   return (
     <header className="h-16 flex items-center justify-between px-4 md:px-8  bg-zinc-950/50 backdrop-blur-md sticky top-0 z-20">
-      
       <div className="flex items-center gap-4 flex-1">
         <button
           onClick={onMenuClick}
@@ -95,7 +94,6 @@ export default function Topbar({
         </div>
       </div>
 
-      {/* Right: Actions */}
       <div className="flex items-center gap-3">
         <div className="relative">
           <button
@@ -121,7 +119,7 @@ export default function Topbar({
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
                   transition={{ duration: 0.1 }}
-                  className="absolute right-0 mt-3 w-80 bg-zinc-900 border border-zinc-800 rounded-xl shadow-2xl z-40 overflow-hidden ring-1 ring-black/5"
+                  className="absolute -right-12 sm:right-0 mt-3 w-80 bg-zinc-900 border border-zinc-800 rounded-xl shadow-2xl z-40 overflow-hidden ring-1 ring-black/5"
                 >
                   <div className="p-3 border-b border-zinc-800 flex justify-between items-center">
                     <h3 className="text-sm font-semibold text-white">

@@ -31,10 +31,10 @@ export default function Breadcrumbs() {
               <span className="text-indigo-400 font-medium">{label}</span>
             ) : (
               <Link
-                href={href}
+                href={label == "Admin" ? "/admin/dashboard" : href}
                 className="hover:text-zinc-200 transition-colors"
               >
-                {label}
+                {label == "Admin" ? "Dashboard" : label}
               </Link>
             )}
           </div>

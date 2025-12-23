@@ -1,4 +1,4 @@
-# 🎶 MeloVibe  
+# 🎶 BeatSphire  
 ## The World’s First Music-Native Social, Dating & Creator Super-App  
 *Tinder + Instagram + Spotify + Discord + Patreon — Unified & Reimagined, Elevated by Music & AI*
 
@@ -13,13 +13,13 @@
 
 ## 🌍 Introduction
 
-**MeloVibe** is a next-generation **human connection platform** designed around one core belief:
+**BeatSphire** is a next-generation **human connection platform** designed around one core belief:
 
 > **Music is emotional truth — and emotional truth builds real relationships.**
 
-MeloVibe merges **dating**, **social networking**, **music streaming**, **communities**, and **creator monetization** into a single, intelligent ecosystem powered by **AI, real-time technology, and emotional data**. It's a revolutionary triple-hybrid super-app that blends social networking, dating, and music streaming into one immersive experience. Meet people through shared music tastes, swipe on curated vibe-based matches, and jam together in real-time listening rooms.
+BeatSphire merges **dating**, **social networking**, **music streaming**, **communities**, and **creator monetization** into a single, intelligent ecosystem powered by **AI, real-time technology, and emotional data**. It's a revolutionary triple-hybrid super-app that blends social networking, dating, and music streaming into one immersive experience. Meet people through shared music tastes, swipe on curated vibe-based matches, and jam together in real-time listening rooms.
 
-Unlike traditional apps that focus on appearances, likes, or shallow engagement, MeloVibe builds **deep, meaningful connections** using music, mood, behavior, and interaction patterns. Powered by **AI**, **gamification**, and **robust safety tools**, MeloVibe creates a fun, expressive, and authentic digital space—where music drives connection. Drawing core features from Tinder (seamless swiping & location magic), Instagram (visual storytelling & discovery), Spotify (personalized discovery & sharing), Discord (vibrant communities & voice immersion), and Patreon (creator empowerment & exclusive access), MeloVibe doesn't just replicate—it reimagines them through a music lens for deeper, more resonant experiences.
+Unlike traditional apps that focus on appearances, likes, or shallow engagement, BeatSphire builds **deep, meaningful connections** using music, mood, behavior, and interaction patterns. Powered by **AI**, **gamification**, and **robust safety tools**, BeatSphire creates a fun, expressive, and authentic digital space—where music drives connection. Drawing core features from Tinder (seamless swiping & location magic), Instagram (visual storytelling & discovery), Spotify (personalized discovery & sharing), Discord (vibrant communities & voice immersion), and Patreon (creator empowerment & exclusive access), BeatSphire doesn't just replicate—it reimagines them through a music lens for deeper, more resonant experiences.
 
 ---
 
@@ -34,11 +34,11 @@ To become the **global operating system for human connection**, where people exp
 - Empower creators without gatekeepers  
 - Build safer, healthier digital relationships  
 
-### Why MeloVibe?  
+### Why BeatSphire?  
 - **Unified Experience:** Social + Dating + Music in one app—no more switching.  
 - **Music at the Core:** Algorithms, profiles, stories, and matches revolve around your music taste.  
 - **Safe & Inclusive:** Advanced AI moderation and identity tools keep users protected.  
-- **Far Superior in Depth:** While Tinder excels at quick sparks, MeloVibe's music-synced emotional matching predicts long-term harmony (95% better retention via vibe algorithms). Instagram's feeds are visual feasts, but ours pulse with beat-synced audio layers for immersive storytelling. Spotify personalizes tunes, yet we weave them into live social rituals. Discord fosters chats, but our rooms evolve with AI-moderated emotional flows. Patreon gates content, while we democratize creation with seamless music-merch hybrids.
+- **Far Superior in Depth:** While Tinder excels at quick sparks, BeatSphire's music-synced emotional matching predicts long-term harmony (95% better retention via vibe algorithms). Instagram's feeds are visual feasts, but ours pulse with beat-synced audio layers for immersive storytelling. Spotify personalizes tunes, yet we weave them into live social rituals. Discord fosters chats, but our rooms evolve with AI-moderated emotional flows. Patreon gates content, while we democratize creation with seamless music-merch hybrids.
 
 ---
 
@@ -46,11 +46,11 @@ To become the **global operating system for human connection**, where people exp
 
 ### 1. Music as Identity  
 Music reflects emotions, personality, lifestyle, and relationship compatibility.  
-MeloVibe treats music as **core identity data**, not decoration—far beyond Spotify's playlists, with AI-generated "Emotional DNA" maps that visualize your sonic soul.
+BeatSphire treats music as **core identity data**, not decoration—far beyond Spotify's playlists, with AI-generated "Emotional DNA" maps that visualize your sonic soul.
 
 ### 2. Humans Are Multi-Dimensional  
 Users behave differently across dating, social, community, and creator contexts.  
-MeloVibe supports **multiple personas** within a single account, with seamless switching like Instagram's multiple accounts but unified by your music thread.
+BeatSphire supports **multiple personas** within a single account, with seamless switching like Instagram's multiple accounts but unified by your music thread.
 
 ### 3. AI as an Assistant, Not a Replacement  
 AI helps users express better, match smarter, and stay safer — while humans stay in control, outpacing Tinders basic prompts with context-aware, music-infused suggestions.
@@ -384,10 +384,10 @@ MIT License — see `LICENSE`.
 
 ## 📬 Contact
 
-Email: melodate@team.com / triplevibe@team.com  
-Twitter/X: @MeloDateApp / @TripleVibeApp  
-Discord: MeloDate Community / Join our community  
+Email: BeatSphire@team.com / triplevibe@team.com  
+Twitter/X: @BeatSphireApp / @TripleVibeApp  
+Discord: BeatSphire Community / Join our community  
 
 ---
 
-**MeloVibe is not just an app — it’s a Connection Operating System.**
+**BeatSphire is not just an app — it’s a Connection Operating System.**
