@@ -19,7 +19,7 @@ const NAV_ITEMS = [
   { label: "Users", href: "/admin/users", icon: Users },
   { label: "Analytics", href: "/admin/analytics", icon: BarChart3 },
   { label: "Reports", href: "/admin/reports", icon: FileText },
-  { label: "Settings", href: "/admin/settings", icon: Settings },
+  // { label: "Settings", href: "/admin/settings", icon: Settings },
 ];
 
 export default function Sidebar({
@@ -39,9 +39,9 @@ export default function Sidebar({
   );
 
   const SidebarContent = () => (
-    <div className="flex flex-col h-full bg-zinc-950 border-r border-zinc-800 w-72">
+    <div className="flex flex-col h-full bg-zinc-950  w-72">
       {/* Logo Area */}
-      <div className="h-16 flex items-center px-6 border-b border-zinc-800">
+      <div className="h-16 flex items-center px-6 ">
         <div className="flex items-center gap-2 text-indigo-500">
           <div className="p-1 bg-indigo-500/10 rounded-lg">
             <ShieldCheck className="w-6 h-6" />
@@ -59,7 +59,7 @@ export default function Sidebar({
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+      <nav className="flex-1 p-4 space-y-1 overflow-y-auto ">
         <p className="px-2 text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3">
           Menu
         </p>
@@ -101,14 +101,14 @@ export default function Sidebar({
       </nav>
 
       {/* Footer */}
-      <div className="p-4 border-t border-zinc-800">
+      {/* <div className="p-4 border-zinc-800">
         <div className="p-4 rounded-xl bg-gradient-to-br from-indigo-900/20 to-purple-900/20 border border-indigo-500/10">
           <p className="text-xs font-medium text-indigo-300">Pro Plan Active</p>
           <p className="text-[10px] text-indigo-400/60 mt-0.5">
             Expires in 12 days
           </p>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 

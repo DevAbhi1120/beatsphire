@@ -33,7 +33,7 @@ export default function AdminShell({
         />
 
         {/* FIX: Main content area gets its own scrollbar */}
-        <main className="flex-1 overflow-y-auto p-4 md:p-8 relative scroll-smooth">
+        <main className="flex-1 overflow-y-auto p-4 md:p-8 relative scroll-smooth border-t md:border-l border-zinc-800 md:rounded-tl-2xl">
           <div className="max-w-7xl mx-auto space-y-6">
             <Breadcrumbs />
 

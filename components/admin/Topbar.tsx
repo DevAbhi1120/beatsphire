@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Bell,
   Search,
@@ -56,13 +56,25 @@ export default function Topbar({
   const [isProfileOpen, setProfileOpen] = useState(false);
   const [isNotifOpen, setNotifOpen] = useState(false);
   const [notifications, setNotifications] = useState(INITIAL_NOTIFICATIONS);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setNotifOpen(false);
+        setProfileOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // Clear notifications
   const clearNotifications = () => setNotifications([]);
 
   return (
-    <header className="h-16 flex items-center justify-between px-4 md:px-8 border-b border-zinc-800 bg-zinc-950/50 backdrop-blur-md sticky top-0 z-20">
-      {/* Left: Hamburger & Search */}
+    <header className="h-16 flex items-center justify-between px-4 md:px-8  bg-zinc-950/50 backdrop-blur-md sticky top-0 z-20">
+      
       <div className="flex items-center gap-4 flex-1">
         <button
           onClick={onMenuClick}
@@ -85,7 +97,6 @@ export default function Topbar({
 
       {/* Right: Actions */}
       <div className="flex items-center gap-3">
-        {/* Notifications Dropdown */}
         <div className="relative">
           <button
             onClick={() => setNotifOpen(!isNotifOpen)}
@@ -103,6 +114,7 @@ export default function Topbar({
                 <div
                   className="fixed inset-0 z-30"
                   onClick={() => setNotifOpen(false)}
+                  ref={dropdownRef}
                 />
                 <motion.div
                   initial={{ opacity: 0, y: 10, scale: 0.95 }}
@@ -190,6 +202,7 @@ export default function Topbar({
                 <div
                   className="fixed inset-0 z-30"
                   onClick={() => setProfileOpen(false)}
+                  ref={dropdownRef}
                 />
                 <motion.div
                   initial={{ opacity: 0, y: 5 }}
