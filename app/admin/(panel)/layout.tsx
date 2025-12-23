@@ -2,6 +2,7 @@
 
 import { useState } from "react"; // NEW: For mobile menu
 import AdminShell from "@/components/admin/AdminShell";
+import QueryProvider from "@/components/providers/QueryProvider";
 
 export default function AdminPanelLayout({
   children,
@@ -11,8 +12,8 @@ export default function AdminPanelLayout({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // NEW: Mobile state
 
   return (
-    <AdminShell>
-      {children}
-    </AdminShell>
+    <QueryProvider>
+      <AdminShell>{children}</AdminShell>
+    </QueryProvider>
   );
 }
