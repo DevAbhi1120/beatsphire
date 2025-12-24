@@ -38,6 +38,8 @@ import {
   Star,
   Flame,
 } from "lucide-react";
+import g4 from "@/assets/images/g4.avif";
+import Image from "next/image";
 
 const Section = ({
   children,
@@ -564,14 +566,8 @@ const StoryCard = ({
       onHoverEnd={() => setIsHovered(false)}
       className="relative aspect-[9/16] rounded-3xl overflow-hidden cursor-pointer group shadow-2xl"
     >
-      <img
-        src={`https://images.unsplash.com/photo-${
-          index === 0
-            ? "1493225255756-d9584f8606e9"
-            : index === 1
-            ? "1614613535308-eb5fbd3d2c17"
-            : "1511671782779-c97d3d27a1d4"
-        }?auto=format&fit=crop&q=80&w=600`}
+      <Image
+        src={index === 0 ? g4 : index === 1 ? g4 : g4}
         alt="Story"
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
       />
