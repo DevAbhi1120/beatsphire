@@ -38,6 +38,9 @@ import {
   Star,
   Flame,
 } from "lucide-react";
+import g1 from "@/assets/images/g1.jpg";
+import g2 from "@/assets/images/g2.jpg";
+import g3 from "@/assets/images/g3.jpg";
 import g4 from "@/assets/images/g4.avif";
 import Image from "next/image";
 
@@ -793,7 +796,7 @@ const ProfileCard = ({
       whileDrag={{ scale: 1.05 }}
     >
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80 z-10" />
-      <img
+      <Image
         src={profile.image}
         alt={profile.name}
         className="absolute inset-0 w-full h-full object-cover"
@@ -861,8 +864,7 @@ const LoveAtFirstListenSection = () => {
       name: "Sarah",
       age: 24,
       bio: "Neo-Soul & chill nights 🌙",
-      image:
-        "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&q=80&w=1000",
+      image: g1,
       genres: ["Neo-Soul", "Vinyl Collector", "Lo-Fi"],
     },
     {
@@ -870,8 +872,7 @@ const LoveAtFirstListenSection = () => {
       name: "Alex",
       age: 27,
       bio: "Techno head. Rave till dawn 🎧",
-      image:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1000",
+      image: g2,
       genres: ["Techno", "House", "Festival Goer"],
     },
     {
@@ -879,8 +880,7 @@ const LoveAtFirstListenSection = () => {
       name: "Jordan",
       age: 22,
       bio: "Indie folk & coffee shops ☕",
-      image:
-        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=1000",
+      image: g3,
       genres: ["Indie Folk", "Acoustic", "Singer-Songwriter"],
     },
     {
@@ -888,8 +888,7 @@ const LoveAtFirstListenSection = () => {
       name: "Maya",
       age: 26,
       bio: "Jazz fusion & late night drives 🌃",
-      image:
-        "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=1000",
+      image: g1,
       genres: ["Jazz", "Fusion", "Saxophone"],
     },
   ];
@@ -1004,7 +1003,10 @@ export default function MeloVibeLanding() {
               MeloVibe
             </span>
           </div>
-          <button className="hidden md:flex items-center gap-2 px-6 py-3 rounded-full border border-white/20 hover:bg-white/10 transition-all text-sm font-medium group">
+          <button
+            className="hidden md:flex items-center gap-2 px-6 py-3 rounded-full border border-white/20 hover:bg-white/10 transition-all text-sm font-medium group"
+            onClick={() => (window.location.href = "/admin/login")}
+          >
             Creator Login{" "}
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </button>
