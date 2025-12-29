@@ -299,7 +299,7 @@ export default function Sidebar({
                       initial="hidden"
                       animate="visible"
                       exit="exit"
-                      className="absolute left-full ml-4 z-50 flex items-center gap-2"
+                      className="absolute left-full top-1/4 ml-4 z-50 flex items-center gap-2"
                     >
                       {/* Little Triangle pointing left */}
                       <div className="absolute -left-1 w-2 h-2 bg-zinc-900 rotate-45 border-l border-b border-zinc-800" />
