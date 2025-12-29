@@ -422,7 +422,7 @@ const CreatorEvolutionSection = () => {
           From Listener to Legend.
         </h2>
         <p className="text-slate-400 text-lg">
-          MeloVibe isn't just an app; it's a career path. Level up your profile,
+          BeatSphire isn't just an app; it's a career path. Level up your profile,
           unlock monetization tools, and build your empire.
         </p>
       </div>
@@ -974,7 +974,7 @@ const LoveAtFirstListenSection = () => {
   );
 };
 
-export default function MeloVibeLanding() {
+export default function BeatSphireLanding() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: containerRef });
   const scaleX = useSpring(scrollYProgress, {
@@ -1000,7 +1000,7 @@ export default function MeloVibeLanding() {
               <Music className="text-white w-6 h-6" />
             </div>
             <span className="text-2xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
-              MeloVibe
+              BeatSphire
             </span>
           </div>
           <button
@@ -1136,7 +1136,7 @@ export default function MeloVibeLanding() {
                 </span>
               </h2>
               <p className="text-xl text-slate-300 mb-10 leading-relaxed">
-                Traditional profiles are flat. MeloVibe generates your{" "}
+                Traditional profiles are flat. BeatSphire generates your{" "}
                 <strong>Emotional DNA</strong> based on your listening habits —
                 matching you with people who feel the same frequency.
               </p>
@@ -1470,7 +1470,7 @@ export default function MeloVibeLanding() {
               <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-violet-600 to-fuchsia-600 flex items-center justify-center">
                 <Music className="text-white w-6 h-6" />
               </div>
-              <span className="text-2xl font-bold text-white">MeloVibe</span>
+              <span className="text-2xl font-bold text-white">BeatSphire</span>
             </div>
 
             <div className="flex gap-10 text-slate-400">
@@ -1487,7 +1487,7 @@ export default function MeloVibeLanding() {
               )}
             </div>
 
-            <div className="text-sm text-slate-600">© 2025 MeloVibe Inc.</div>
+            <div className="text-sm text-slate-600">© 2025 BeatSphire Inc.</div>
           </div>
         </footer>
       </div>

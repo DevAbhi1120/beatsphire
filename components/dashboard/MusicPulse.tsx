@@ -1,6 +1,11 @@
 "use client";
 import { motion } from "framer-motion";
 import { Music2, Headphones, Radio } from "lucide-react";
+import g1 from "@/assets/images/g1.jpg";
+import g2 from "@/assets/images/g2.jpg";
+import g3 from "@/assets/images/g3.jpg";
+import g4 from "@/assets/images/g4.avif";
+import Image from "next/image";
 
 const MOODS = [
   { name: "Energetic", count: "42k", color: "bg-yellow-400" },
@@ -21,11 +26,11 @@ export default function MusicPulse() {
           <p className="text-xs text-zinc-500">Real-time mood distribution</p>
         </div>
         <div className="flex -space-x-2">
-          {[1, 2, 3].map((i) => (
-            <img
+          {[g1, g2, g3, g4].map((v, i) => (
+            <Image
               key={i}
               className="w-7 h-7 rounded-full border-2 border-zinc-950"
-              src={`https://i.pravatar.cc/100?img=${i + 10}`}
+              src={v}
               alt="user"
             />
           ))}
