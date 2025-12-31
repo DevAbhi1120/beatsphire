@@ -19,6 +19,7 @@ import {
   ChevronDown,
   Lock,
   UserCog,
+  Bell,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -29,6 +30,7 @@ const NAV_ITEMS = [
   { label: "Reports", href: "/admin/reports", icon: FileText },
   { label: "Dating Management", href: "/admin/dating_management", icon: Heart },
   { label: "Profile", href: "/admin/profile", icon: User ,},
+  { label: "Notifications", href: "/admin/notifications", icon: Bell ,},
   {
     label: "Settings",
     href: "/admin/settings",
